@@ -80,7 +80,7 @@ namespace Slide5.Tools
         private static List<DatabaseInfo> StudentListInfoFull = new List<DatabaseInfo>()
         {
             new DatabaseInfo(FieldName: "StudentID", FieldColumnNumber: 0, ShowField: true,  ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedIntDatabaseValue),
-            new DatabaseInfo(FieldName: "StudentName", FieldColumnNumber: 1, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
+            new DatabaseInfo(FieldName: "StudentName", FieldColumnNumber: 1, ShowField: false, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
             new DatabaseInfo(FieldName: "StudentAddress", FieldColumnNumber: 2, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
             new DatabaseInfo(FieldName: "StudentNumberOfCourses", FieldColumnNumber: 3, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedIntDatabaseValue),
             new DatabaseInfo(FieldName: "ClassName", FieldColumnNumber: 4, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
@@ -145,28 +145,13 @@ namespace Slide5.Tools
         public static void WatchStudentList(SQLAndDatabaseInfo SQLTable)
         {
             int Counter;
-            //String SqlString;
             string OutputString;
-
-            //SQLAndDatabaseInfo SQLTable = new SQLAndDatabaseInfo();
-            //SQLAndDatabaseInfo SQLTable = StudentListSQL;
-
-            //SQLTable = StudentListSQL;
-
-            //SqlString = "SELECT * FROM Student;";
-            /*SqlString =  @"SELECT s.StudentID, s.StudentName, s.StudentAddress, s.StudentNumberOfCourses, cl.ClassName, co.CourseName
-                            FROM  dbo.Class AS cl INNER JOIN
-                            dbo.StudentClass_RepetitionOnClass AS scc ON cl.ClassID = scc.ClassID INNER JOIN
-                            dbo.Student AS s ON s.StudentID = scc.StudentID INNER JOIN
-                            dbo.Course AS co ON scc.CourseID = co.CourseID
-                            WHERE(cl.ClassName LIKE '%')";*/
 
             Connection.Open();
 
             ToolsOutput.PrintStringOnSeperateLine(SQLTable.SQLCommandString);
             ToolsOutput.PrintStringOnSeperateLine("");
 
-            //using (SqlCommand Command = new SqlCommand(SqlString, Connection))
             using (SqlCommand Command = new SqlCommand(SQLTable.SQLCommandString, Connection))
             {
                 OutputString = "";
@@ -193,40 +178,9 @@ namespace Slide5.Tools
                             }
                         }
                         ToolsOutput.PrintStringOnSeperateLine(OutputString);
-
-                        //OutputString = Reader.GetInt32(0) + " ";
-                        //OutputString += Reader.GetString(1) + " ";
-                        //OutputString += Reader.GetString(2) + " ";
-                        //OutputString += Reader.GetInt32(3) + " ";
-                        //try
-                        //{
-                        //    OutputString += Reader.GetInt32(4) + " ";
-                        //}
-                        //catch (SqlException e)
-                        //{
-                        //    OutputString += "NULL ";
-                        //}
-
-                        //try
-                        //{
-                        //   OutputString += Reader.GetInt32(5) + " ";
-                        //}
-                        //catch (SqlException e)
-                        //{
-                        //    OutputString += "NULL ";
-                        //}
-                        //ToolsOutput.PrintStringOnSeperateLine(OutputString);
-                        //ToolsOutput.PrintStringOnSeperateLine(Convert.ToString(Reader));
                     }
                 }
             }
-
-            //sqlString = "SELECT s.StudentID, s.StudentName, s.StudentAddress, s.StudentNumberOfCourses, cl.ClassName, co.CourseName \n
-            //FROM dbo.Class AS cl INNER JOIN
-            //                         dbo.StudentClass_RepetitionOnClass AS scc ON cl.ClassID = scc.ClassID INNER JOIN
-            //                         dbo.Student AS s ON s.StudentID = scc.StudentID INNER JOIN
-            //                         dbo.Course AS co ON scc.CourseID = co.CourseID
-            //WHERE(cl.ClassName LIKE '%'); ";
 
             Connection.Close();
 

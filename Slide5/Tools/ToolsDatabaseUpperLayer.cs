@@ -6,11 +6,14 @@ namespace Slide5.Tools
 {
     class ToolsDatabaseUpperLayer
     {
+        #region DastabaseConnection
         public static bool OpenDatabaseConnection()
         {
             return (ToolsDataBaseLowerLayer.OpenDatabaseConnection());
         }
+        #endregion
 
+        #region menus
         public static void HandleStudentMenu()
         {
             int KeypressedValue = 0;
@@ -75,7 +78,9 @@ namespace Slide5.Tools
                 }
             } while (KeypressedValue < StringList.Length);
         }
+        #endregion
 
+        #region Database_Access
         public static void WatchStudentList()
         {
             ToolsDataBaseLowerLayer.WatchStudentList(ToolsDataBaseLowerLayer.GetSQLCommandAndFields());
@@ -110,6 +115,7 @@ namespace Slide5.Tools
         {
 
         }
-        
+        #endregion
+
     }
 }
