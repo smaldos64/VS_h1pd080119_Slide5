@@ -7,8 +7,8 @@ namespace Slide5
 {
     class Program
     {
-        
 
+        #region Program_Startup
         static void StartProgram()
         {
             ToolsOutput.PrintStringOnSeperateLine("Connect to SQL Server and demo Create, Read, Update and Delete operations.");
@@ -33,7 +33,9 @@ namespace Slide5
 
             ToolsInput.WaitForUser();
         }
+        #endregion
 
+        #region Menus
         public static void MainMenu()
         {
             string[] StringList = { "1 : Håndter Studerende",
@@ -58,5 +60,6 @@ namespace Slide5
                 }
             } while (KeypressedValue < StringList.Length);
         }
+        #endregion
     }
 }

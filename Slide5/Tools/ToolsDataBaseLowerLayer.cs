@@ -5,8 +5,11 @@ using System.Data.SqlClient;
 
 namespace Slide5.Tools
 {
+    #region Delegates
     public delegate string ConvertReceivedDatabaseValue(SqlDataReader Reader, int ColumnNumber);
+    #endregion
 
+    #region Database_Table_Definitions
     public class DatabaseInfo
     {
         public string FieldName;
@@ -42,21 +45,15 @@ namespace Slide5.Tools
 
         }
     }
+    #endregion
 
+    #region Databse_Access
     public class ToolsDataBaseLowerLayer
     {
         private static SqlConnectionStringBuilder Builder;
         private static SqlConnection Connection;
 
-        private const int StudentIDColumn = 0;
-        private const int StudentNameColumn = 1;
-        private const int StudentAddressColumn = 2;
-        private const int StudentClassIDColumn = 0;
-
-        private const string IntegerFieldType = "Int";
-        private const string FloatFieldType = "Float";
-        private const string StringFieldType = "String";
-
+        #region SQL_Strings
         private const string SqlString = @"SELECT s.StudentID, s.StudentName, s.StudentAddress, s.StudentNumberOfCourses, cl.ClassName, co.CourseName
                                             FROM  dbo.Class AS cl INNER JOIN
                                             dbo.StudentClass_RepetitionOnClass AS scc ON cl.ClassID = scc.ClassID INNER JOIN
@@ -67,7 +64,9 @@ namespace Slide5.Tools
         private const string  SQLStringView = @"Select * FROM FullStudentInfoView";
 
         private const string SQLString_SP = @"EXEC FullStudentInfo_SP";
+        #endregion
 
+        #region SQL_Tables
         private static List<DatabaseInfo> StudentListInfo = new List<DatabaseInfo>()
         {
             new DatabaseInfo(FieldName: "StudentID", FieldColumnNumber: 0, ShowField: true,  ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedIntDatabaseValue),
@@ -82,7 +81,7 @@ namespace Slide5.Tools
         {
             new DatabaseInfo(FieldName: "StudentID", FieldColumnNumber: 0, ShowField: true,  ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedIntDatabaseValue),
             new DatabaseInfo(FieldName: "StudentName", FieldColumnNumber: 1, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
-            new DatabaseInfo(FieldName: "StudentAddress", FieldColumnNumber: 2, ShowField: false, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
+            new DatabaseInfo(FieldName: "StudentAddress", FieldColumnNumber: 2, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
             new DatabaseInfo(FieldName: "StudentNumberOfCourses", FieldColumnNumber: 3, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedIntDatabaseValue),
             new DatabaseInfo(FieldName: "ClassName", FieldColumnNumber: 4, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue),
             new DatabaseInfo(FieldName: "CourseName", FieldColumnNumber: 5, ShowField: true, ConvertReceivedDatabaseValueFunc:ToolsDatabaseExtensions.ConvertReceivedStringDatabaseValue)
@@ -93,7 +92,9 @@ namespace Slide5.Tools
         private static SQLAndDatabaseInfo StudentListView = new SQLAndDatabaseInfo(DatabseInfoList: StudentListInfoFull, SQLCommandString: SQLStringView);
 
         private static SQLAndDatabaseInfo StudentList_SP = new SQLAndDatabaseInfo(DatabseInfoList: StudentListInfoFull, SQLCommandString: SQLString_SP);
+        #endregion
 
+        #region GET_SQL_Tables
         public static SQLAndDatabaseInfo GetSQLCommandAndFields()
         {
             return (StudentListSQL);
@@ -108,7 +109,9 @@ namespace Slide5.Tools
         {
             return (StudentList_SP);
         }
+        #endregion
 
+        #region DatabaseConnection
         public static bool OpenDatabaseConnection()
         {
             try
@@ -116,8 +119,6 @@ namespace Slide5.Tools
                 // Build connection string
                 Builder = new SqlConnectionStringBuilder();
                 Builder.DataSource = "PCM15715";   // update me
-                //Builder.UserID = "sa";              // update me
-                //Builder.Password = "Buchwald_34";      // update me
                 Builder.InitialCatalog = "h1pd080119";
                 Builder.IntegratedSecurity = true;
 
@@ -138,7 +139,9 @@ namespace Slide5.Tools
                 return (false);
             }
         }
+        #endregion
 
+        #region Database_Data_Functions
         public static void WatchStudentList(SQLAndDatabaseInfo SQLTable)
         {
             int Counter;
@@ -229,5 +232,7 @@ namespace Slide5.Tools
 
             ToolsInput.WaitForUser();
         }
+        #endregion
     }
+    #endregion
 }
